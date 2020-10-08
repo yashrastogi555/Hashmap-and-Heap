@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool checkKDiv(vector<int>&arr,int k)
+{
+    int n=arr.size(),i;
+    unordered_map<int,int>rm;
+    for(i=0;i<n;i++)
+    rm[arr[i]%k]++;
+    
+    for(auto p:rm)
+    {
+        if(p.first == 0)
+        {
+            if(p.second%2 != 0)
+            return 0;
+        }
+        else if( 2*p.first == k)
+        {
+            if(  p.second%2 !=0 )
+            return 0;
+        }
+        
+        else
+        {
+            int temp=rm[k-p.first];
+            if(temp != p.second)
+            return 0;
+        }
+    }
+    return 1;
+}
+
+
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int>arr(n,0);
+    for(int i=0;i<n;i++)
+    cin>>arr[i];
+    int k;
+    cin>>k;
+    cout<<boolalpha;
+    cout<<checkKDiv(arr,k);
+}
