@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+string smallestLength(string &s1,string &s2)
+{
+    int l1=s1.length(),l2=s2.length();
+    int  i,j;
+    if(l1<l2)
+    return "";
+    if(l1==0 ||l2==0)
+    return "";
+    unordered_map<char,int>fmap,m;
+    
+    for(int k=0;k<l2;k++)
+    fmap[s2[k]]++;
+    
+    i=-1;
+    j=-1;
+    
+    string ans="";
+    int pc=0;
+    
+    while(true)
+    {
+        bool f1=0,f2=0;
+        
+        while(i<l1 and pc < l2)
+        {
+            i++;
+            
+            m[s1[i]]++;
+            
+            if(fmap.find(s1[i]) == fmap.end())
+            fmap[s1[i]]=0;
+            
+            if(m[s1[i]]<=fmap[s1[i]])
+            pc++;
+            
+            f1=1;
+            
+            
+        }
+      
+        
+        while(j<=i and pc==l2)
+        {
+            j++;
+            
+            string temp="";
+            temp=s1.substr(j, i-j+1);
+            //cout<<j<<","<<i<<"="<<temp<<endl;
+            if(ans.length() == 0 || temp.length() < ans.length())
+            {
+                
+                ans=temp;
+                
+            }
+          
+            m[s1[j]]--;
+            if( fmap.find(s1[j])!=fmap.end() and  m[s1[j]] < fmap[s1[j]] )
+            pc--;
+            
+            if(m[s1[j]] == 0)
+            {
+            m.erase(s1[j]);
+            }
+            
+           
+            
+            f2=1;
+        }
+    
+    
+        if(!f1 and !f2)
+        break;
+    }
+    
+    return ans;
+}
+
+
