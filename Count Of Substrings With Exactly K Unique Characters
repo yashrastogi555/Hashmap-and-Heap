@@ -1,0 +1,133 @@
+#include <bits/stdc++.h>
+using namespace std;
+int solveForK(string &s)
+{
+     int n=s.length();
+    int i,j;
+    unordered_map<char,int>m;
+    i=-1;
+    j=-1;
+    int ans=0;
+    while(true)
+    {
+        bool f1=0,f2=0;
+        while(i<n-1)
+        {
+            i++;
+            f1=1;
+            m[s[i]]++;
+            if(m.size()==2)
+            {
+                m[s[i]]--;
+                if(m[s[i]] == 0)
+                m.erase(s[i]);
+                i--;
+                break;
+            }
+        }
+        
+        while(j<i){
+            if(m.size()==1)
+            {
+                ans+=i-j;
+            }
+            f2=1;
+            j++;
+            m[s[j]]--;
+            if(m[s[j]]==0)
+            m.erase(s[j]);
+            
+            if(m.size()==0)
+            break;
+        }
+        if(!f1 &&!f2)
+        break;
+    }
+    return ans;
+}
+
+int longestSubs(string &s,int k)
+{
+    if(k==1)
+    {
+        int t=solveForK(s);
+        return t;
+    }
+    int n=s.length();
+    int is,ib,j;
+    unordered_map<char,int>ms,mb;
+    is=-1;
+    ib=-1;
+    j=-1;
+    int ans=0;
+    while(true)
+    {
+        bool f1=0,f2=0,f3=0;
+        while(ib<n-1)
+        {
+            ib++;
+            f1=1;
+            mb[s[ib]]++;
+            if(mb.size()>k)
+            {
+                mb[s[ib]]--;
+                if(mb[s[ib]]==0)
+                mb.erase(s[ib]);
+                ib--;
+                break;
+            }
+        }
+        
+            while(is<ib)
+        {
+            is++;
+            f2=1;
+            ms[s[is]]++;
+            if(ms.size()==k)
+            {
+                ms[s[is]]--;
+                if(ms[s[is]]==0)
+                ms.erase(s[is]);
+                is--;
+                break;
+            }
+        }
+          while(j<is)
+          {
+              if(ms.size()==(k-1) and mb.size()==k)
+              ans+=ib-is;
+              f3=1;
+              j++;
+              mb[s[j]]--;
+              if(mb[s[j]]==0)
+              {
+                  mb.erase(s[j]);
+              }
+              
+              ms[s[j]]--;
+               if(ms[s[j]]==0)
+              {
+                  ms.erase(s[j]);
+              }
+              if(ms.size() < (k-1) || mb.size()<k)
+              break;
+              
+          }
+          if(!f1 and !f2 and !f3)
+          break;
+            
+            
+        
+  
+    }
+    return ans;
+}
+
+int main()
+{
+    string s;
+    cin>>s;
+    int k;
+    cin>>k;
+    cout<<longestSubs(s,k);
+}
